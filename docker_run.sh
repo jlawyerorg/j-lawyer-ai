@@ -1,0 +1,1 @@
+docker run -p 18080:8081 j-lawyer-ai
