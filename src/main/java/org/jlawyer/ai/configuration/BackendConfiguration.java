@@ -6,11 +6,12 @@ package org.jlawyer.ai.configuration;
 
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
 import java.util.List;
 
 @XmlRootElement(name = "j-lawyer-ai")
 public class BackendConfiguration {
-    private List<Backend> backends;
+    private List<Backend> backends=new ArrayList<>();
 
     @XmlElement(name = "backend")
     public List<Backend> getBackends() {

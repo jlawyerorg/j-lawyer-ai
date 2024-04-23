@@ -14,33 +14,44 @@ import org.jlawyer.ai.model.AiResponse;
  */
 public class GenericProcessor implements RequestProcessor {
     
+    private Backend backend=null;
+    
     public GenericProcessor(Backend backend) {
-        
+        this.backend=backend;
     }
 
     @Override
     public boolean isAsync() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return backend.isAsync();
     }
 
     @Override
     public AiResponse processSync(String requestId) throws AiProcessorException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        AiResponse response=new AiResponse();
+        response.setExecutionMillis(1000);
+        response.setModelType(backend.getModelType());
+        response.setProgress(100f);
+        response.setPrompt("");
+        response.setRequestId(requestId);
+        response.setRequestType(backend.getRequestType());
+        response.setStatus("FINISHED");
+        response.setStatusMessage("finished processing");
+        return response;
     }
 
     @Override
     public void processAsync(String requestId) throws AiProcessorException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
     }
 
     @Override
     public AiRequestStatus getStatus(String requestId) throws AiProcessorException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return null;
     }
 
     @Override
     public AiResponse getResponse(String requestId) throws AiProcessorException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return null;
     }
     
 }

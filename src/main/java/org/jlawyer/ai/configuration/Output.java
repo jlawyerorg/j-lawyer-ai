@@ -22,6 +22,7 @@ public class Output {
     /**
      * @return the index
      */
+    
     public int getIndex() {
         return index;
     }

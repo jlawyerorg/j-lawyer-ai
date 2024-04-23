@@ -8,6 +8,7 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlElements;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
 import java.util.List;
 
 @XmlRootElement(name = "backend")
@@ -24,11 +25,11 @@ public class Backend {
     private boolean async=false;
     
     
-    private List<Input> input;
+    private List<Input> input=new ArrayList<>();
     private Processing processing;
     
     
-    private List<Output> output;
+    private List<Output> output=new ArrayList<>();
 
     // Getters and setters with XmlElement annotations
 

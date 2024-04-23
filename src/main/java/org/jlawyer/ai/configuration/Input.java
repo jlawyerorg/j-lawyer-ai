@@ -13,7 +13,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Input {
     
-    
+    @XmlAttribute
     private int index;
 
     // Getters and setters with XmlElement annotations
@@ -23,7 +23,7 @@ public class Input {
     /**
      * @return the index
      */
-    @XmlAttribute
+    
     public int getIndex() {
         return index;
     }
