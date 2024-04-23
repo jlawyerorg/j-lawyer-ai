@@ -11,9 +11,16 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.jlawyer.ai.configuration.BackendConfiguration;
 import org.jlawyer.ai.model.AiRequest;
 import org.jlawyer.ai.model.AiRequestStatus;
 import org.jlawyer.ai.model.AiResponse;
+import org.jlawyer.ai.processing.AiProcessorException;
+import org.jlawyer.ai.processing.ProcessorFactory;
+import org.jlawyer.ai.processing.RequestProcessor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +35,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/j-lawyer-ai")
 @Tag(name = "j-lawyer.AI", description = "j-lawyer.AI endpoints")
 public class AiRestEndpoint {
+    
+    private final BackendConfiguration backendConfig;
+    
+    @Autowired
+    public AiRestEndpoint(BackendConfiguration backendConfig) {
+        this.backendConfig = backendConfig;
+    }
     
     @GetMapping("/hello")
     @Operation(summary = "Get greeting message", description = "Returns a greeting message")
@@ -47,15 +61,33 @@ public class AiRestEndpoint {
     })
     public ResponseEntity<AiRequestStatus> submitRequest(@RequestBody AiRequest aiRequest) {
         
-        String requestId="" + System.nanoTime();
-        
-                
-        
-        AiRequestStatus status=new AiRequestStatus();
-        status.setRequestId(""+System.currentTimeMillis());
-        status.setStatus("EXECUTING");
-        
-        return new ResponseEntity<>(status, HttpStatus.OK);
+        try {
+            String requestId="" + System.nanoTime();
+            
+            AiRequestStatus status=new AiRequestStatus();
+            status.setRequestId(""+System.currentTimeMillis());
+            
+            RequestProcessor processor=ProcessorFactory.getProcessor(backendConfig, aiRequest.getRequestType(), aiRequest.getModelType());
+            if(processor.isAsync()) {
+                status.setStatus("EXECUTING");
+            } else {
+                AiResponse response=processor.processSync(requestId);
+                status.setResponse(response);
+                status.setStatus("FINISHED");
+            }
+            
+            return new ResponseEntity<>(status, HttpStatus.OK);
+        } catch (AiProcessorException ex) {
+            Logger.getLogger(AiRestEndpoint.class.getName()).log(Level.SEVERE, null, ex);
+            
+            AiRequestStatus status=new AiRequestStatus();
+            status.setRequestId(""+System.currentTimeMillis());
+            status.setStatus("ERROR");
+            status.setStatusDetails(ex.getMessage());
+            
+            return new ResponseEntity<>(status, HttpStatus.INTERNAL_SERVER_ERROR);
+            
+        }
     }
     
     @GetMapping("/request-status/{requestId}")

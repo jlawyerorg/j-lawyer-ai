@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<j-lawyer-ai>
+    <backend>
+        <name>Transkribieren</name>
+        <description>Transkribiert eine Datei oder </description>
+        <request-type>transcribe</request-type>
+        <model-type>whisper.cpp</model-type>
+        <async>false</async>
+        <input>
+            <file index="0"/>
+            <string index="0"/>
+        </input>
+        <processing>
+            <pre-processors>
+                <commandline-processor binary="/usr/bin/whisper" arguments="a b c 1 2 3 --tr"/>
+                <commandline-processor binary="/usr/bin/whisper" arguments="a b c 1 2 3 --tr"/>
+            </pre-processors>
+            <processors>
+                <commandline-processor binary="/usr/bin/whisper" arguments="a b c 1 2 3 --tr"/>
+                <commandline-processor binary="/usr/bin/whisper" arguments="a b c 1 2 3 --tr"/>
+            </processors>
+            <post-processors>
+                <commandline-processor binary="/usr/bin/whisper" arguments="a b c 1 2 3 --tr"/>
+                <commandline-processor binary="/usr/bin/whisper" arguments="a b c 1 2 3 --tr"/>
+            </post-processors>
+        </processing>
+        <output>
+            <file index="0"/>
+            <string index="0"/>
+        </output>
+    </backend>
+</j-lawyer-ai>
+

@@ -12,6 +12,8 @@ public class AiRequestStatus {
     
     private String requestId;
     private String status;
+    private String statusDetails="";
+    private AiResponse response=null;
 
     /**
      * @return the requestId
@@ -39,6 +41,34 @@ public class AiRequestStatus {
      */
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    /**
+     * @return the statusDetails
+     */
+    public String getStatusDetails() {
+        return statusDetails;
+    }
+
+    /**
+     * @param statusDetails the statusDetails to set
+     */
+    public void setStatusDetails(String statusDetails) {
+        this.statusDetails = statusDetails;
+    }
+
+    /**
+     * @return the response
+     */
+    public AiResponse getResponse() {
+        return response;
+    }
+
+    /**
+     * @param response the response to set
+     */
+    public void setResponse(AiResponse response) {
+        this.response = response;
     }
     
 }

@@ -4,7 +4,8 @@
  */
 package org.jlawyer.ai.processing;
 
-import org.jlawyer.ai.processing.deepl.DeeplProcessor;
+import org.jlawyer.ai.configuration.Backend;
+import org.jlawyer.ai.configuration.BackendConfiguration;
 
 /**
  *
@@ -12,11 +13,14 @@ import org.jlawyer.ai.processing.deepl.DeeplProcessor;
  */
 public class ProcessorFactory {
     
-    public static RequestProcessor getProcessor(String requestType, String modelType) {
-        if("deepl".equalsIgnoreCase(modelType))
-            return new DeeplProcessor();
+    public static RequestProcessor getProcessor(BackendConfiguration config, String requestType, String modelType) throws AiProcessorException {
         
-        return null;
+        for(Backend b: config.getBackends()) {
+            if(b.getRequestType().toLowerCase().equals(requestType.toLowerCase()) && b.getModelType().toLowerCase().equals(modelType.toLowerCase()))
+                return new GenericProcessor(b);
+        }
+        
+        throw new AiProcessorException("no backend configured for request type '" + requestType + "' and model type '" + modelType);
     }
     
 }
