@@ -4,6 +4,7 @@
  */
 package org.jlawyer.ai.configuration;
 
+import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "file")

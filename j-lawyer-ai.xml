@@ -2,31 +2,98 @@
 <j-lawyer-ai>
     <backend>
         <name>Transkribieren</name>
-        <description>Transkribiert eine Datei oder </description>
+        <description>Transkribiert eine Datei</description>
         <request-type>transcribe</request-type>
         <model-type>whisper.cpp</model-type>
         <async>false</async>
         <input>
-            <file index="0"/>
-            <string index="0"/>
+            <file id="FILE-0"/>
+            <!-- string id="STRING-0"/ -->
         </input>
         <processing>
             <pre-processors>
-                <commandline-processor binary="/usr/bin/whisper" arguments="a b c 1 2 3 --tr"/>
-                <commandline-processor binary="/usr/bin/whisper" arguments="a b c 1 2 3 --tr"/>
+                <!-- convert to a format that whisper can understand --> 
+                <commandline-processor binary="/usr/bin/ffmpeg" arguments="-i FILE-0 -ac 1 -ar 16000 16khz-FILE-0"/>
             </pre-processors>
             <processors>
-                <commandline-processor binary="/usr/bin/whisper" arguments="a b c 1 2 3 --tr"/>
-                <commandline-processor binary="/usr/bin/whisper" arguments="a b c 1 2 3 --tr"/>
+                <commandline-processor binary="/home/jens/dev/j-lawyer-ai-models/whisper/whisper.cpp/main" arguments="-m /home/jens/dev/j-lawyer-ai-models/whisper/whisper.cpp/models/ggml-base.bin -f 16khz-FILE-0 --language DE --output-txt --output-file 16khz-FILE-0"/>
             </processors>
             <post-processors>
-                <commandline-processor binary="/usr/bin/whisper" arguments="a b c 1 2 3 --tr"/>
-                <commandline-processor binary="/usr/bin/whisper" arguments="a b c 1 2 3 --tr"/>
             </post-processors>
         </processing>
         <output>
-            <file index="0"/>
-            <string index="0"/>
+            <file id="16khz-FILE-0.txt"/>
+            <string id="16khz-FILE-0.txt"/>
+        </output>
+    </backend>
+    <backend>
+        <name>Transkribieren (engl.)</name>
+        <description>Transkribiert eine Datei ins Englische</description>
+        <request-type>transcribe</request-type>
+        <model-type>whisper.cpp+deepl</model-type>
+        <async>false</async>
+        <input>
+            <file id="FILE-0"/>
+            <!-- string id="STRING-0"/ -->
+        </input>
+        <processing>
+            <pre-processors>
+                <!-- convert to a format that whisper can understand --> 
+                <commandline-processor binary="/usr/bin/ffmpeg" arguments="-i FILE-0 -ac 1 -ar 16000 16khz-FILE-0"/>                
+            </pre-processors>
+            <processors>
+                <commandline-processor binary="/home/jens/dev/j-lawyer-ai-models/whisper/whisper.cpp/main" arguments="-m /home/jens/dev/j-lawyer-ai-models/whisper/whisper.cpp/models/ggml-base.bin -f 16khz-FILE-0 --language DE --output-txt --output-file 16khz-FILE-0"/>                
+            </processors>
+            <post-processors>
+                <deepl-processor endpoint="https://api-free.deepl.com/v2/translate" api-key="84fe4e30-8fe0-4a68-b9b1" target-language="EN-US" input="16khz-FILE-0.txt" output="STRING-1"/>
+            </post-processors>
+        </processing>
+        <output>
+            <string id="STRING-1"/>
+        </output>
+    </backend>
+    <backend>
+        <name>Übersetzen (engl.)</name>
+        <description>Übersetzt einen Text ins Englische</description>
+        <request-type>translate-en</request-type>
+        <model-type>deepl</model-type>
+        <async>false</async>
+        <input>
+            <string id="STRING-0"/>
+        </input>
+        <processing>
+            <pre-processors>
+            </pre-processors>
+            <processors>
+                <deepl-processor endpoint="https://api-free.deepl.com/v2/translate" api-key="84fe4e30-8fe0-4a68-b9b1" target-language="EN-US" input="STRING-0" output="STRING-1"/>
+            </processors>
+            <post-processors>                
+            </post-processors>
+        </processing>
+        <output>
+            <string id="STRING-1"/>
+        </output>
+    </backend>
+    <backend>
+        <name>Übersetzen (frz.)</name>
+        <description>Übersetzt einen Text ins Französische</description>
+        <request-type>translate-fr</request-type>
+        <model-type>deepl</model-type>
+        <async>false</async>
+        <input>
+            <string id="STRING-0"/>
+        </input>
+        <processing>
+            <pre-processors>
+            </pre-processors>
+            <processors>
+                <deepl-processor endpoint="https://api-free.deepl.com/v2/translate" api-key="84fe4e30-8fe0-4a68-b9b1" target-language="FR" input="STRING-0" output="STRING-1"/>
+            </processors>
+            <post-processors>                
+            </post-processors>
+        </processing>
+        <output>
+            <string id="STRING-1"/>
         </output>
     </backend>
 </j-lawyer-ai>

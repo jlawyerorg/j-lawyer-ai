@@ -7,6 +7,6 @@ package org.jlawyer.ai.configuration;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "file")
-class FileOutput extends Output {
+public class FileOutput extends Output {
     // Implement if needed
 }

@@ -4,6 +4,7 @@
  */
 package org.jlawyer.ai.processing;
 
+import org.jlawyer.ai.model.AiRequest;
 import org.jlawyer.ai.model.AiRequestStatus;
 import org.jlawyer.ai.model.AiResponse;
 
@@ -15,8 +16,8 @@ public interface RequestProcessor {
     
     public boolean isAsync();
     
-    public AiResponse processSync(String requestId) throws AiProcessorException;
-    public void processAsync(String requestId) throws AiProcessorException;
+    public AiResponse processSync(String requestId, AiRequest aiRequest) throws AiProcessorException;
+    public void processAsync(String requestId, AiRequest aiRequest) throws AiProcessorException;
     public AiRequestStatus getStatus(String requestId) throws AiProcessorException;
     public AiResponse getResponse(String requestId) throws AiProcessorException;
     

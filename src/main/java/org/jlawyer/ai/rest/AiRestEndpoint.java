@@ -11,8 +11,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jlawyer.ai.configuration.BackendConfiguration;
 import org.jlawyer.ai.model.AiRequest;
 import org.jlawyer.ai.model.AiRequestStatus;
@@ -20,6 +18,8 @@ import org.jlawyer.ai.model.AiResponse;
 import org.jlawyer.ai.processing.AiProcessorException;
 import org.jlawyer.ai.processing.ProcessorFactory;
 import org.jlawyer.ai.processing.RequestProcessor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +35,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/j-lawyer-ai")
 @Tag(name = "j-lawyer.AI", description = "j-lawyer.AI endpoints")
 public class AiRestEndpoint {
+    
+    private static final Logger log = LoggerFactory.getLogger(AiRestEndpoint.class);
     
     private final BackendConfiguration backendConfig;
     
@@ -71,14 +73,14 @@ public class AiRestEndpoint {
             if(processor.isAsync()) {
                 status.setStatus("EXECUTING");
             } else {
-                AiResponse response=processor.processSync(requestId);
+                AiResponse response=processor.processSync(requestId, aiRequest);
                 status.setResponse(response);
                 status.setStatus("FINISHED");
             }
             
             return new ResponseEntity<>(status, HttpStatus.OK);
         } catch (AiProcessorException ex) {
-            Logger.getLogger(AiRestEndpoint.class.getName()).log(Level.SEVERE, null, ex);
+            log.error("error processing request", ex);
             
             AiRequestStatus status=new AiRequestStatus();
             status.setRequestId(""+System.currentTimeMillis());

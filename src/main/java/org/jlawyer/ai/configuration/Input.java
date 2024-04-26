@@ -14,24 +14,25 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 public class Input {
     
     @XmlAttribute
-    private int index;
+    private String id;
 
     // Getters and setters with XmlElement annotations
 
-    
-
     /**
-     * @return the index
+     * @return the id
      */
-    
-    public int getIndex() {
-        return index;
+    public String getId() {
+        return id;
     }
 
     /**
-     * @param index the index to set
+     * @param id the id to set
      */
-    public void setIndex(int index) {
-        this.index = index;
+    public void setId(String id) {
+        this.id = id;
     }
+
+    
+
+
 }

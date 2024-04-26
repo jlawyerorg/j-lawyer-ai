@@ -6,6 +6,7 @@ package org.jlawyer.ai.configuration;
 
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
+import jakarta.xml.bind.annotation.XmlElements;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
@@ -13,13 +14,13 @@ import java.util.List;
 public class Processing {
     
     
-    private List<CommandlineProcessor> preProcessors;
+    private List<Processor> preProcessors;
 
     
-    private List<CommandlineProcessor> processors;
+    private List<Processor> processors;
 
     
-    private List<CommandlineProcessor> postProcessors;
+    private List<Processor> postProcessors;
 
     // Getters and setters with XmlElement annotations
 
@@ -27,15 +28,18 @@ public class Processing {
      * @return the preProcessors
      */
     @XmlElementWrapper(name = "pre-processors")
-    @XmlElement(name = "commandline-processor")
-    public List<CommandlineProcessor> getPreProcessors() {
+    @XmlElements({
+            @XmlElement(name = "commandline-processor", type = CommandlineProcessor.class),
+            @XmlElement(name = "deepl-processor", type = DeeplProcessor.class)
+    })
+    public List<Processor> getPreProcessors() {
         return preProcessors;
     }
 
     /**
      * @param preProcessors the preProcessors to set
      */
-    public void setPreProcessors(List<CommandlineProcessor> preProcessors) {
+    public void setPreProcessors(List<Processor> preProcessors) {
         this.preProcessors = preProcessors;
     }
 
@@ -43,15 +47,18 @@ public class Processing {
      * @return the processors
      */
     @XmlElementWrapper(name = "processors")
-    @XmlElement(name = "commandline-processor")
-    public List<CommandlineProcessor> getProcessors() {
+    @XmlElements({
+            @XmlElement(name = "commandline-processor", type = CommandlineProcessor.class),
+            @XmlElement(name = "deepl-processor", type = DeeplProcessor.class)
+    })
+    public List<Processor> getProcessors() {
         return processors;
     }
 
     /**
      * @param processors the processors to set
      */
-    public void setProcessors(List<CommandlineProcessor> processors) {
+    public void setProcessors(List<Processor> processors) {
         this.processors = processors;
     }
 
@@ -59,15 +66,18 @@ public class Processing {
      * @return the postProcessors
      */
     @XmlElementWrapper(name = "post-processors")
-    @XmlElement(name = "commandline-processor")
-    public List<CommandlineProcessor> getPostProcessors() {
+    @XmlElements({
+            @XmlElement(name = "commandline-processor", type = CommandlineProcessor.class),
+            @XmlElement(name = "deepl-processor", type = DeeplProcessor.class)
+    })
+    public List<Processor> getPostProcessors() {
         return postProcessors;
     }
 
     /**
      * @param postProcessors the postProcessors to set
      */
-    public void setPostProcessors(List<CommandlineProcessor> postProcessors) {
+    public void setPostProcessors(List<Processor> postProcessors) {
         this.postProcessors = postProcessors;
     }
 }
