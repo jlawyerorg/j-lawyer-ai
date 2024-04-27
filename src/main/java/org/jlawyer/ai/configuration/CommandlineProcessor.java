@@ -75,6 +75,17 @@ public class CommandlineProcessor extends Processor {
 
             }
         }
+        
+        for (int i = 0; i < cmd.length; i++) {
+            for (String key : inputStrings.keySet()) {
+
+                if (cmd[i].contains(key)) {
+
+                    cmd[i] = cmd[i].replace(key, inputStrings.get(key));
+                }
+
+            }
+        }
 
         log.info("Request " + requestId + ", processing command line: " + commandLine);
 
@@ -94,6 +105,17 @@ public class CommandlineProcessor extends Processor {
             while ((line = reader.readLine()) != null) {
                 log.info("   " + line);
             }
+            
+//            int character;
+//            StringBuilder lineBuilder = new StringBuilder();
+//            while ((character = reader.read()) != -1) {
+//                if (character == '\n') {
+//                    log.info("   " + lineBuilder.toString());
+//                    lineBuilder.setLength(0); // Clear StringBuilder for next line
+//                } else {
+//                    lineBuilder.append((char) character);
+//                }
+//            }
 
             // Wait for the process to finish and get the exit code
             exitCode = process.waitFor();

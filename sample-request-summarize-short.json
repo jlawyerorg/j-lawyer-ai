@@ -1,0 +1,13 @@
+{
+  "prompt": "Schreibe eine sehr kurze Zusammenfassung: ",
+  "inputData": [
+    {
+      "type": "string",
+      "data": "Zivilprozessordnung, § 130a Elektronisches Dokument; Verordnungsermächtigung",
+      "fileName": "",
+      "base64Encoded": false
+    }
+  ],
+  "requestType": "summarize",
+  "modelType": "occiglot"
+}

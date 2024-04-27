@@ -96,5 +96,29 @@
             <string id="STRING-1"/>
         </output>
     </backend>
+    <backend>
+        <name>Zusammenfassen (kurz)</name>
+        <description>Erstellt eine kurze Zusammenfassung eines Textes</description>
+        <request-type>summarize</request-type>
+        <model-type>occiglot</model-type>
+        <async>false</async>
+        <input>
+            <string id="STRING-0"/>
+        </input>
+        <processing>
+            <pre-processors>
+                <!-- string2file-processor inputstring="PROMPT STRING-0" outputfile="text.txt" outputfileid="FILE-0"/ -->
+                <!-- file2string-processor inputfile="FILE-0" outputstring="STRING-1"/ -->
+            </pre-processors>
+            <processors>
+                <ollama-processor endpoint="http://localhost:11434/api/generate" model="mayflowergmbh/occiglot-7b-de-en-instruct" input="PROMPT STRING-0" output="STRING-1"/>
+            </processors>
+            <post-processors>
+            </post-processors>
+        </processing>
+        <output>
+            <string id="STRING-1"/>
+        </output>
+    </backend>
 </j-lawyer-ai>
 

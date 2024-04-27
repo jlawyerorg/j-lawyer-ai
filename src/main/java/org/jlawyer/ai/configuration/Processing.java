@@ -30,6 +30,9 @@ public class Processing {
     @XmlElementWrapper(name = "pre-processors")
     @XmlElements({
             @XmlElement(name = "commandline-processor", type = CommandlineProcessor.class),
+            @XmlElement(name = "string2file-processor", type = StringToFileProcessor.class),
+            @XmlElement(name = "file2string-processor", type = FileToStringProcessor.class),
+            @XmlElement(name = "ollama-processor", type = OllamaProcessor.class),
             @XmlElement(name = "deepl-processor", type = DeeplProcessor.class)
     })
     public List<Processor> getPreProcessors() {
@@ -49,6 +52,9 @@ public class Processing {
     @XmlElementWrapper(name = "processors")
     @XmlElements({
             @XmlElement(name = "commandline-processor", type = CommandlineProcessor.class),
+            @XmlElement(name = "string2file-processor", type = StringToFileProcessor.class),
+            @XmlElement(name = "file2string-processor", type = FileToStringProcessor.class),
+            @XmlElement(name = "ollama-processor", type = OllamaProcessor.class),
             @XmlElement(name = "deepl-processor", type = DeeplProcessor.class)
     })
     public List<Processor> getProcessors() {
@@ -68,6 +74,9 @@ public class Processing {
     @XmlElementWrapper(name = "post-processors")
     @XmlElements({
             @XmlElement(name = "commandline-processor", type = CommandlineProcessor.class),
+            @XmlElement(name = "string2file-processor", type = StringToFileProcessor.class),
+            @XmlElement(name = "file2string-processor", type = FileToStringProcessor.class),
+            @XmlElement(name = "ollama-processor", type = OllamaProcessor.class),
             @XmlElement(name = "deepl-processor", type = DeeplProcessor.class)
     })
     public List<Processor> getPostProcessors() {
