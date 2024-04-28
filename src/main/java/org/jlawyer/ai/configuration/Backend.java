@@ -15,15 +15,13 @@ import java.util.List;
 public class Backend {
     private String name;
     private String description;
-    
-    
     private String requestType;
-    
-    
     private String modelType;
-    
     private boolean async=false;
     
+    private Prompt prompt=null;
+    
+    private List<Parameter> parameters=new ArrayList<>();
     
     private List<Input> input=new ArrayList<>();
     private Processing processing;
@@ -155,5 +153,38 @@ public class Backend {
      */
     public void setAsync(boolean async) {
         this.async = async;
+    }
+
+    /**
+     * @return the prompt
+     */
+    @XmlElement(name = "prompt")
+    public Prompt getPrompt() {
+        return prompt;
+    }
+
+    /**
+     * @param prompt the prompt to set
+     */
+    public void setPrompt(Prompt prompt) {
+        this.prompt = prompt;
+    }
+
+    /**
+     * @return the parameters
+     */
+    @XmlElementWrapper(name = "parameters")
+    @XmlElements({
+            @XmlElement(name = "parameter", type = Parameter.class)
+    })
+    public List<Parameter> getParameters() {
+        return parameters;
+    }
+
+    /**
+     * @param parameters the parameters to set
+     */
+    public void setParameters(List<Parameter> parameters) {
+        this.parameters = parameters;
     }
 }

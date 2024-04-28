@@ -23,7 +23,7 @@ public class FileToStringProcessor extends Processor {
     private String outputStringId;
 
     @Override
-    public void process(String requestId, AiRequest aiRequest, HashMap<String, File> inputFiles, HashMap<String, String> inputStrings) throws AiProcessorException {
+    public void process(String requestId, Backend backend, AiRequest aiRequest, HashMap<String, File> inputFiles, HashMap<String, String> inputStrings) throws AiProcessorException {
 
         File workingDir = new File("processing" + File.separator + requestId);
         if (!workingDir.exists()) {

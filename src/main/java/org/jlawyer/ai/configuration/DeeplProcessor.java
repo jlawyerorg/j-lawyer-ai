@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.jlawyer.ai.model.AiRequest;
+import org.jlawyer.ai.model.ParameterData;
 import org.jlawyer.ai.processing.AiProcessorException;
 import org.jlawyer.ai.utils.AiFileUtils;
 import org.slf4j.Logger;
@@ -36,7 +37,7 @@ public class DeeplProcessor extends Processor {
     private String endpoint;
 
     @Override
-    public void process(String requestId, AiRequest aiRequest, HashMap<String, File> inputFiles, HashMap<String, String> inputStrings) throws AiProcessorException {
+    public void process(String requestId, Backend backend, AiRequest aiRequest, HashMap<String, File> inputFiles, HashMap<String, String> inputStrings) throws AiProcessorException {
 
         String inputText = null;
         
@@ -75,7 +76,11 @@ public class DeeplProcessor extends Processor {
 
             params.put("text", inputText);
 
-            params.put("target_lang", getTargetLanguage());
+            String targetLang=this.getTargetLanguage();
+            for(ParameterData p: aiRequest.getParameterData()) {
+                targetLang=targetLang.replace(p.getId(), p.getValue());
+            }
+            params.put("target_lang", targetLang);
 
             StringBuilder postData = new StringBuilder();
             for (Map.Entry<String, Object> param : params.entrySet()) {

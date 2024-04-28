@@ -1,13 +1,13 @@
 {
-  "prompt": "",
+  "prompt": "Erläutere den folgenden Begriff oder Sachverhalt: ",
   "inputData": [
     {
       "type": "string",
-      "data": "Zivilprozessordnung, § 130a Elektronisches Dokument; Verordnungsermächtigung",
+      "data": "§218 BGB",
       "fileName": "",
       "base64Encoded": false
     }
   ],
-  "requestType": "summarize",
+  "requestType": "explain",
   "modelType": "occiglot-short"
 }

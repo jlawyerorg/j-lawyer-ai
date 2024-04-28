@@ -27,11 +27,14 @@
         </output>
     </backend>
     <backend>
-        <name>Transkribieren (engl.)</name>
-        <description>Transkribiert eine Datei ins Englische</description>
+        <name>Transkribieren und übersetzen</name>
+        <description>Transkribiert eine Datei in eine unterstützte Sprache</description>
         <request-type>transcribe</request-type>
         <model-type>whisper.cpp+deepl</model-type>
         <async>false</async>
+        <parameters>
+            <parameter id="PARAM-1" name="Sprache" type="string" default="EN" list="BG,CS,DA,DE,EL,EN-GB,EN-US,ES,ET,FI,FR,HU,ID,IT,JA,KO,LT,LV,NB,NL,PL,PT-BR,PT-PT,RO,RU,SK,SL,SV,TR,UK,ZH"/>
+        </parameters>
         <input>
             <file id="FILE-0"/>
             <!-- string id="STRING-0"/ -->
@@ -45,7 +48,7 @@
                 <commandline-processor binary="/home/jens/dev/j-lawyer-ai-models/whisper/whisper.cpp/main" arguments="-m /home/jens/dev/j-lawyer-ai-models/whisper/whisper.cpp/models/ggml-base.bin -f 16khz-FILE-0 --language DE --output-txt --output-file 16khz-FILE-0"/>                
             </processors>
             <post-processors>
-                <deepl-processor endpoint="https://api-free.deepl.com/v2/translate" api-key="84fe4e30-8fe0-4a68-b9b1" target-language="EN-US" input="16khz-FILE-0.txt" output="STRING-1"/>
+                <deepl-processor endpoint="https://api-free.deepl.com/v2/translate" api-key="84fe4e30-" target-language="PARAM-1" input="16khz-FILE-0.txt" output="STRING-1"/>
             </post-processors>
         </processing>
         <output>
@@ -53,11 +56,14 @@
         </output>
     </backend>
     <backend>
-        <name>Übersetzen (engl.)</name>
-        <description>Übersetzt einen Text ins Englische</description>
-        <request-type>translate-en</request-type>
+        <name>Übersetzen</name>
+        <description>Übersetzt einen Text in eine der unterstützten Sprachen</description>
+        <request-type>translate</request-type>
         <model-type>deepl</model-type>
         <async>false</async>
+        <parameters>
+            <parameter id="PARAM-1" name="Sprache" type="string" default="EN" list="BG,CS,DA,DE,EL,EN-GB,EN-US,ES,ET,FI,FR,HU,ID,IT,JA,KO,LT,LV,NB,NL,PL,PT-BR,PT-PT,RO,RU,SK,SL,SV,TR,UK,ZH"/>
+        </parameters>
         <input>
             <string id="STRING-0"/>
         </input>
@@ -65,29 +71,7 @@
             <pre-processors>
             </pre-processors>
             <processors>
-                <deepl-processor endpoint="https://api-free.deepl.com/v2/translate" api-key="84fe4e30-8fe0-4a68-b9b1" target-language="EN-US" input="STRING-0" output="STRING-1"/>
-            </processors>
-            <post-processors>                
-            </post-processors>
-        </processing>
-        <output>
-            <string id="STRING-1"/>
-        </output>
-    </backend>
-    <backend>
-        <name>Übersetzen (frz.)</name>
-        <description>Übersetzt einen Text ins Französische</description>
-        <request-type>translate-fr</request-type>
-        <model-type>deepl</model-type>
-        <async>false</async>
-        <input>
-            <string id="STRING-0"/>
-        </input>
-        <processing>
-            <pre-processors>
-            </pre-processors>
-            <processors>
-                <deepl-processor endpoint="https://api-free.deepl.com/v2/translate" api-key="84fe4e30-8fe0-4a68-b9b1" target-language="FR" input="STRING-0" output="STRING-1"/>
+                <deepl-processor endpoint="https://api-free.deepl.com/v2/translate" api-key="84fe4e30-" target-language="PARAM-1" input="STRING-0" output="STRING-1"/>
             </processors>
             <post-processors>                
             </post-processors>
@@ -100,8 +84,84 @@
         <name>Zusammenfassen (kurz)</name>
         <description>Erstellt eine kurze Zusammenfassung eines Textes</description>
         <request-type>summarize</request-type>
-        <model-type>occiglot</model-type>
+        <model-type>occiglot-short</model-type>
         <async>false</async>
+        <prompt default-prompt="Fasse folgenden Text in maximal 5 Sätzen zusammen:" max-tokens="4096"/>
+        <input>
+            <string id="STRING-0"/>
+        </input>
+        <processing>
+            <pre-processors>
+                <!-- string2file-processor inputstring="PROMPT STRING-0" outputfile="text.txt" outputfileid="FILE-0"/ -->
+                <!-- file2string-processor inputfile="FILE-0" outputstring="STRING-1"/ -->
+            </pre-processors>
+            <processors>
+                <ollama-processor endpoint="http://localhost:11434/api/generate" model="mayflowergmbh/occiglot-7b-de-en-instruct" input="PROMPT STRING-0" output="STRING-1"/>
+            </processors>
+            <post-processors>
+            </post-processors>
+        </processing>
+        <output>
+            <string id="STRING-1"/>
+        </output>
+    </backend>
+    <backend>
+        <name>Zusammenfassen (ausführlich)</name>
+        <description>Erstellt eine ausführliche Zusammenfassung eines Textes</description>
+        <request-type>summarize</request-type>
+        <model-type>occiglot-long</model-type>
+        <async>false</async>
+        <prompt default-prompt="Fasse folgenden Text ausführlich zusammen:"  max-tokens="4096"/>
+        <input>
+            <string id="STRING-0"/>
+        </input>
+        <processing>
+            <pre-processors>
+                <!-- string2file-processor inputstring="PROMPT STRING-0" outputfile="text.txt" outputfileid="FILE-0"/ -->
+                <!-- file2string-processor inputfile="FILE-0" outputstring="STRING-1"/ -->
+            </pre-processors>
+            <processors>
+                <ollama-processor endpoint="http://localhost:11434/api/generate" model="mayflowergmbh/occiglot-7b-de-en-instruct" input="PROMPT STRING-0" output="STRING-1"/>
+            </processors>
+            <post-processors>
+            </post-processors>
+        </processing>
+        <output>
+            <string id="STRING-1"/>
+        </output>
+    </backend>
+    <backend>
+        <name>Erläutern (kurz)</name>
+        <description>Erläutert einen Begriff oder einen Sachverhalt einer Textpassage</description>
+        <request-type>explain</request-type>
+        <model-type>occiglot-short</model-type>
+        <async>false</async>
+        <prompt default-prompt="Erläutere diesen Begriff oder Sachverhalt in maximal 3 Sätzen:"  max-tokens="4096"/>
+        <input>
+            <string id="STRING-0"/>
+        </input>
+        <processing>
+            <pre-processors>
+                <!-- string2file-processor inputstring="PROMPT STRING-0" outputfile="text.txt" outputfileid="FILE-0"/ -->
+                <!-- file2string-processor inputfile="FILE-0" outputstring="STRING-1"/ -->
+            </pre-processors>
+            <processors>
+                <ollama-processor endpoint="http://localhost:11434/api/generate" model="mayflowergmbh/occiglot-7b-de-en-instruct" input="PROMPT STRING-0" output="STRING-1"/>
+            </processors>
+            <post-processors>
+            </post-processors>
+        </processing>
+        <output>
+            <string id="STRING-1"/>
+        </output>
+    </backend>
+    <backend>
+        <name>Erläutern (ausführlich)</name>
+        <description>Erläutert einen Begriff oder einen Sachverhalt einer Textpassage in ausführlicher Form</description>
+        <request-type>explain</request-type>
+        <model-type>occiglot-long</model-type>
+        <async>false</async>
+        <prompt default-prompt="Erläutere diesen Begriff oder Sachverhalt ausführlich:"  max-tokens="4096"/>
         <input>
             <string id="STRING-0"/>
         </input>

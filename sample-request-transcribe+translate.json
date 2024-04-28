@@ -1,5 +1,11 @@
 {
-  "prompt": "string",
+  "prompt": "",
+  "parameterData": [
+    {
+      "id": "PARAM-1",
+      "value": "EN"
+    }
+  ],
   "inputData": [
     {
       "type": "file",

@@ -32,7 +32,7 @@ public class OllamaProcessor extends Processor {
     private String endpoint;
 
     @Override
-    public void process(String requestId, AiRequest aiRequest, HashMap<String, File> inputFiles, HashMap<String, String> inputStrings) throws AiProcessorException {
+    public void process(String requestId, Backend backend, AiRequest aiRequest, HashMap<String, File> inputFiles, HashMap<String, String> inputStrings) throws AiProcessorException {
 
         String inputText = null;
         
@@ -62,6 +62,11 @@ public class OllamaProcessor extends Processor {
             for(String k: inputStrings.keySet()) {
                 inputText=inputText.replace(k, inputStrings.get(k));
             }
+        }
+        
+        int tokens=Prompt.countTokens(inputText);
+        if(tokens>backend.getPrompt().getMaxTokens()) {
+            throw new AiProcessorException("prompt exceeded number of maximum tokens: " + tokens + " of max allowed " + backend.getPrompt().getMaxTokens());
         }
         
 //        for (String key : inputStrings.keySet()) {

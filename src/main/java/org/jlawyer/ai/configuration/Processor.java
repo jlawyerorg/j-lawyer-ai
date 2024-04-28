@@ -15,6 +15,6 @@ import org.jlawyer.ai.processing.AiProcessorException;
  */
 public abstract class Processor {
     
-    public abstract void process(String requestId, AiRequest aiRequest, HashMap<String, File> inputFiles, HashMap<String, String> inputStrings) throws AiProcessorException;
+    public abstract void process(String requestId, Backend backend, AiRequest aiRequest, HashMap<String, File> inputFiles, HashMap<String, String> inputStrings) throws AiProcessorException;
     
 }

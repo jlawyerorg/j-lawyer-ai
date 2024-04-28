@@ -45,6 +45,13 @@ public class GenericProcessor implements RequestProcessor {
     @Override
     public AiResponse processSync(String requestId, AiRequest aiRequest) throws AiProcessorException {
 
+        long start=System.currentTimeMillis();
+        
+        if(aiRequest.getPrompt()==null || "".equals(aiRequest.getPrompt()) && backend.getPrompt()!=null)
+            aiRequest.setPrompt(backend.getPrompt().getDefaultPrompt());
+        if(aiRequest.getPrompt()==null)
+            aiRequest.setPrompt("");
+        
         File workingDir = new File("processing" + File.separator + requestId);
         if (!workingDir.exists()) {
             workingDir.mkdirs();
@@ -79,13 +86,13 @@ public class GenericProcessor implements RequestProcessor {
         }
 
         for (Processor p : this.backend.getProcessing().getPreProcessors()) {
-            p.process(requestId, aiRequest, inputFiles, inputStrings);
+            p.process(requestId, this.backend, aiRequest, inputFiles, inputStrings);
         }
         for (Processor p : this.backend.getProcessing().getProcessors()) {
-            p.process(requestId, aiRequest, inputFiles, inputStrings);
+            p.process(requestId, this.backend, aiRequest, inputFiles, inputStrings);
         }
         for (Processor p : this.backend.getProcessing().getPostProcessors()) {
-            p.process(requestId, aiRequest, inputFiles, inputStrings);
+            p.process(requestId, this.backend, aiRequest, inputFiles, inputStrings);
         }
 
         AiResponse response = new AiResponse();
@@ -165,7 +172,7 @@ public class GenericProcessor implements RequestProcessor {
             }
         }
 
-        response.setExecutionMillis(1000);
+        response.setExecutionMillis(System.currentTimeMillis()-start);
         response.setModelType(backend.getModelType());
         response.setProgress(100f);
         response.setPrompt("");

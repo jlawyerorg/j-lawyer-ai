@@ -14,6 +14,7 @@ import java.util.List;
 public class AiRequest {
     
     private String prompt;
+    private List<ParameterData> parameterData=new ArrayList<>();
     private List<InputData> inputData=new ArrayList<>();
     private String requestType;
     private String modelType;
@@ -65,6 +66,20 @@ public class AiRequest {
      */
     public void setModelType(String modelType) {
         this.modelType = modelType;
+    }
+
+    /**
+     * @return the parameterData
+     */
+    public List<ParameterData> getParameterData() {
+        return parameterData;
+    }
+
+    /**
+     * @param parameterData the parameterData to set
+     */
+    public void setParameterData(List<ParameterData> parameterData) {
+        this.parameterData = parameterData;
     }
     
 }

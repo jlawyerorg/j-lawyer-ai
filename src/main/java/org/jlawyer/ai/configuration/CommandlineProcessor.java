@@ -58,7 +58,7 @@ public class CommandlineProcessor extends Processor {
     }
 
     @Override
-    public void process(String requestId, AiRequest aiRequest, HashMap<String, File> inputFiles, HashMap<String, String> inputStrings) throws AiProcessorException {
+    public void process(String requestId, Backend backend, AiRequest aiRequest, HashMap<String, File> inputFiles, HashMap<String, String> inputStrings) throws AiProcessorException {
 
         String commandLine = binary + " " + arguments;
         

@@ -49,3 +49,11 @@ verify transcribe only:
 save transription result to a text file:
 
     ./main -m /home/jens/dev/j-lawyer-ai-models/whisper/whisper.cpp/models/ggml-base.bin -f soundclip-16khz.wav --language DE --output-txt --output-file soundclip
+
+### Summarization / Chat: via ollama
+
+    curl -fsSL https://ollama.com/install.sh | sh
+    ollama list
+    ollama pull mayflowergmbh/occiglot-7b-de-en-instruct
+    ollama run mayflowergmbh/occiglot-7b-de-en-instruct "Erzähle einen Witz"
+    ollama run mayflowergmbh/occiglot-7b-de-en-instruct "Erstelle eine Zusammenfassung: $(cat /home/jens/temp/rvg.txt)" 
