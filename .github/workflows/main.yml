@@ -45,7 +45,10 @@ jobs:
       uses: actions/upload-release-asset@v1
       with:
         upload_url: https://uploads.github.com/repos/${{ github.repository }}/releases/${{ steps.get_release_id.outputs.release_id }}/assets
-        asset_path: ./target/${{ steps.find_war.outputs.filename }}
+        # build is created as e.g. /home/runner/work/j-lawyer-ai/j-lawyer-ai/target/j-lawyer-ai-0.0.1-SNAPSHOT.war
+        # asset_path: ./target/${{ steps.find_war.outputs.filename }}
+        asset_path: /home/runner/work/j-lawyer-ai/j-lawyer-ai/target/${{ steps.find_war.outputs.filename }}
+        
         asset_name: ${{ steps.find_war.outputs.filename }}
         asset_content_type: application/java-archive
       env:
