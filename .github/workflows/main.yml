@@ -34,7 +34,7 @@ jobs:
       run: mkdir temp_directory
 
     - name: Copy Source Code to Temporary Directory
-      run: cp -r ./ temp_directory/
+      run: cp -r !(temp_directory) temp_directory/
 
     - name: Compress Source Code as TAR GZ
       run: tar -czf source-code.tar.gz -C temp_directory/ .
