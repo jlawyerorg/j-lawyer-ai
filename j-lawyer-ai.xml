@@ -12,7 +12,7 @@
         </input>
         <processing>
             <pre-processors>
-                <!-- convert to a format that whisper can understand --> 
+                <!-- convert to a format that whisper can understand  --> 
                 <commandline-processor binary="/usr/bin/ffmpeg" arguments="-i FILE-0 -ac 1 -ar 16000 16khz-FILE-0"/>
             </pre-processors>
             <processors>
