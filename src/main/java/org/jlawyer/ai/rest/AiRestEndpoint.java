@@ -11,7 +11,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import java.util.ArrayList;
+import java.util.List;
+import org.jlawyer.ai.configuration.Backend;
 import org.jlawyer.ai.configuration.BackendConfiguration;
+import org.jlawyer.ai.model.AiCapability;
 import org.jlawyer.ai.model.AiRequest;
 import org.jlawyer.ai.model.AiRequestStatus;
 import org.jlawyer.ai.model.AiResponse;
@@ -45,14 +49,30 @@ public class AiRestEndpoint {
         this.backendConfig = backendConfig;
     }
     
-    @GetMapping("/hello")
-    @Operation(summary = "Get greeting message", description = "Returns a greeting message")
+    @GetMapping("/capabilities")
+    @Operation(summary = "Get a list of supported AI requests", description = "Returns a list of capabilities and their metadata. Can be used by a calling client to populate menu items / buttons etc.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Successful operation"),
         @ApiResponse(responseCode = "404", description = "Resource not found")
     })
-    public String hello() {
-        return "Hello, world!";
+    public ResponseEntity<List<AiCapability>> getCapabilities() {
+
+        List<AiCapability> capabilities=new ArrayList<>();
+        for(Backend b: this.backendConfig.getBackends()) {
+            AiCapability c=new AiCapability();
+            c.setAsync(b.isAsync());
+            c.setDefaultPrompt(b.getPrompt());
+            c.setDescription(b.getDescription());
+            c.setInput(b.getInput());
+            c.setModelType(b.getModelType());
+            c.setName(b.getName());
+            c.setOutput(b.getOutput());
+            c.setParameters(b.getParameters());
+            c.setRequestType(b.getRequestType());
+            capabilities.add(c);
+        }
+        
+        return new ResponseEntity<>(capabilities, HttpStatus.OK);
     }
     
     @PostMapping("/request-submit")
