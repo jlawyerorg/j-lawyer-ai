@@ -50,6 +50,6 @@ jobs:
         asset_path: /home/runner/work/j-lawyer-ai/j-lawyer-ai/target/${{ steps.find_war.outputs.filename }}
         
         asset_name: ${{ steps.find_war.outputs.filename }}
-        asset_content_type: application/java-archive
+        asset_content_type: application/octet-stream
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
