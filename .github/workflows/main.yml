@@ -1,0 +1,35 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build Project
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up JDK
+      uses: actions/setup-java@v1
+      with:
+        java-version: '17' # You can change this to your desired JDK version
+
+    - name: Build with Maven
+      run: |
+        mvn clean package
+        echo "::set-env name=WAR_FILE::$(find ./target -name '*.war' -printf '%f')"
+    
+    - name: Upload Release
+      uses: actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ github.event.repository.releases_url }}
+        asset_path: ./target/$WAR_FILE
+        asset_name: $WAR_FILE
+        asset_content_type: application/java-archive
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
