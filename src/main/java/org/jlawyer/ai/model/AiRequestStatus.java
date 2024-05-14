@@ -4,11 +4,13 @@
  */
 package org.jlawyer.ai.model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author jens
  */
-public class AiRequestStatus {
+public class AiRequestStatus implements Serializable {
     
     private String requestId;
     private String status;
